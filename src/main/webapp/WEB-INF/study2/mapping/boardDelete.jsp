@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>boardDelete.jsp</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>boardDelete.jsp</title>
   <%@ include file="/include/bs5.jsp" %>
 </head>
 <body>
@@ -14,11 +14,11 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-	<h2>게시판 자료 삭제</h2>
-	<hr/>
-	<div>메세지 : ${msg}</div>
-	<hr/>
-	<div><a href="___.do" class="btn btn-success">돌아가기</a></div>
+  <h2>게시판 자료 삭제</h2>
+  <hr/>
+  <div>메세지 : ${msg}</div>
+  <hr/>
+  <div><a href="___.do" class="btn btn-success">돌아가기</a></div>
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp" />

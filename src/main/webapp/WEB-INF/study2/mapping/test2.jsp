@@ -39,7 +39,7 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2>이곳은 test1.jsp(/WEB-INF/study2/test) :확장자패턴 연습</h2>
+  <h2>이곳은 test1.jsp(/WEB-INF/study2/test)-확장자패턴 연습</h2>
   <hr/>
   <div>전송 메세지 : ${msg}</div>
   <hr/>
@@ -63,11 +63,11 @@
   </div>
   <hr/>
   <div>
-  	<input type="button" value="게시판리스트" onclick="location.href='boardList.re'" class="btn btn-success btn-sm" />
-  	<input type="button" value="게시판등록" onclick="location.href='boardInput.re'" class="btn btn-primary btn-sm" />
-  	<input type="button" value="게시판수정" onclick="location.href='boardUpdate.re'" class="btn btn-secondary btn-sm" />
-  	<input type="button" value="게시판삭제" onclick="location.href='boardDelete.re'" class="btn btn-info btn-sm" />
-  	<input type="button" value="게시판조회" onclick="location.href='boardSearch.re'" class="btn btn-warning btn-sm" />
+    <input type="button" value="게시판리스트" onclick="location.href='boardList.re'" class="btn btn-success btn-sm"/>
+    <input type="button" value="게시판등록" onclick="location.href='boardInput.re'" class="btn btn-primary btn-sm"/>
+    <input type="button" value="게시판수정" onclick="location.href='boardUpdate.re'" class="btn btn-secondary btn-sm"/>
+    <input type="button" value="게시판삭제" onclick="location.href='boardDelete.re'" class="btn btn-info btn-sm"/>
+    <input type="button" value="게시판조회" onclick="location.href='boardSearch.re'" class="btn btn-warning btn-sm"/>
   </div>
 </div>
 <p><br/></p>

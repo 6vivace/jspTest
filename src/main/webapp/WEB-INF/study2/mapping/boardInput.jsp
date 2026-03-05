@@ -27,7 +27,7 @@
 	    </tr>
 	    <tr>
 	      <th>글내용</th>
-	      <td><textarea rows="6" name="content" class="form-control" required ></textarea></td>
+	      <td><textarea rows="6" name="content" class="form-control" required></textarea></td>
 	    </tr>
 	    <tr>
 	      <td colspan="2" class="text-center">

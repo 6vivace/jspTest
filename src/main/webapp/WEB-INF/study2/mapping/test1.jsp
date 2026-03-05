@@ -39,7 +39,7 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2>이곳은 test1.jsp(/WEB-INF/study2/test) : 디렉터리패턴 연습</h2>
+  <h2>이곳은 test1.jsp(/WEB-INF/study2/test) : 디렉토리패턴연습</h2>
   <hr/>
   <div>전송 메세지 : ${msg}</div>
   <hr/>
