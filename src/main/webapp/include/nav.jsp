@@ -20,7 +20,7 @@
         <a class="nav-link active" href="http://192.168.50.64:9090/springGreen/Main">HOME</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/GuestList">Guest</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/GuestList.gu">Guest</a>
       </li>
       <% if(login.equals("OK")) { %>
       <li class="nav-item">
