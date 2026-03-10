@@ -84,7 +84,7 @@
   	  </tr>
   	  <tr>
   	    <th>방문소감</th>
-  	    <td colspan="3" style="height:180px">${fn:replace(vo.content, newLine, "<br/>")}</td>
+  	    <td colspan="3" style="height:100px">${fn:replace(vo.content, newLine, "<br/>")}</td>
   	    <%-- <td colspan="3" style="white-space: pre-wrap;">${vo.content}</td> --%>
   	  </tr>
   	</table>
@@ -92,6 +92,32 @@
   </c:forEach>
   
   <!-- 블록페이징 시작 -->
+  	<ul class="pagination justify-content-center">
+		  <c:if test="${pag > 1}">
+		  	<li class="page-item"><a class="page-link" href="GuestList.gu?pag=1">처음페이지</a></li>
+		  </c:if>
+		  <c:if test="${curBlock > 0}">
+				<li class="page-item"><a class="page-link" href="GuestList.gu?pag=${(curBlock-1)*blockSize+1}">이전블록</a></li>
+			</c:if>
+	  <c:forEach var="i" begin="${(curBlock*blockSize)+1}" end="${(curBlock*blockSize)+blockSize}" varStatus="st">
+	  	<c:if test="${i <= totPage && i == pag}">
+	  		<li class="page-item"><a class="page-link" style="color:red; font-weight:bold;" ><b>${i}</b></a></li>
+	  	</c:if>
+	  	<c:if test="${i <= totPage && i != pag}">
+	  		<li class="page-item"><a class="page-link" href="GuestList.gu?pag=${i}">${i}</a></li>
+	  	</c:if>
+	  </c:forEach>
+	  <c:if test="${curBlock < lastBlock}">
+	  	<li class="page-item"><a class="page-link" href="GuestList.gu?pag=${(curBlock+1)*blockSize+1}">다음블록</a></li>
+	  </c:if>
+	  <c:if test="${pag < totPage}">
+	  	<li class="page-item"><a class="page-link" href="GuestList.gu?pag=${totPage}">마지막페이지</a></li>
+	  </c:if>
+	  </ul>	
+  <!-- 블록페이징 끝 -->
+  
+  
+<%--   <!-- 블록페이징 시작 -->
   <div class="text-center">
 	  <c:if test="${pag > 1}">[<a href="GuestList.gu?pag=1">처음페이지</a>]</c:if>
 	  <c:if test="${curBlock > 0}">[<a href="GuestList.gu?pag=${(curBlock-1)*blockSize+1}">이전블록</a>]</c:if>
@@ -102,7 +128,7 @@
 	  <c:if test="${curBlock < lastBlock}">[<a href="GuestList.gu?pag=${(curBlock+1)*blockSize+1}">다음블록</a>]</c:if>
 	  <c:if test="${pag < totPage}">[<a href="GuestList.gu?pag=${totPage}">마지막페이지</a>]</c:if>
   </div>
-  <!-- 블록페이징 끝 -->
+  <!-- 블록페이징 끝 --> --%>
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp" />
