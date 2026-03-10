@@ -17,7 +17,7 @@ public class GuestListCommand implements GuestInterface {
 		int pag = request.getParameter("pag")==null ? 1 : Integer.parseInt(request.getParameter("pag"));
 		
 		// 2. 한 페이지의 분량을 정해준다.(여기서는 1페이짖당 3건의 자료를 출력한다고 가정...)
-		int pageSize = 3;
+		int pageSize = 2;
 		
 		// 3. 총 레코드 건수 구한다.(sql의 집계함수 count()를 사용한다.)
 		int totRecCnt = dao.getTotRecCnt();
@@ -32,6 +32,16 @@ public class GuestListCommand implements GuestInterface {
 		// 6. 현재 화면에 표시될 시작 페이지 번호.
 		int curScrStartNo = totRecCnt - startIndexNo;
 		
+		// 블록페이지 처리(시작블록을 0으로 처리함)
+		// 7. 블록의 크기결정(현재는 3으로 지정했음.)
+		int blockSize = 3;
+		
+		// 8. 현재페이지가 속한 블록의 번호를 구한다.
+		int curBlock =	(pag - 1)/ blockSize;	//(1page,2page,3page는 0블록), (5page,5page는 1블록)
+		
+		// 9. 마지막블록 구한다.
+		int lastBlock = (totPage-1) / blockSize;
+		
 		List<GuestVO> vos = dao.getGuestList(startIndexNo, pageSize);
 		
 		request.setAttribute("vos", vos);
@@ -41,6 +51,9 @@ public class GuestListCommand implements GuestInterface {
 		request.setAttribute("totRecCnt", totRecCnt);
 		request.setAttribute("totPage", totPage);
 		request.setAttribute("curScrStartNo", curScrStartNo);
+		request.setAttribute("blockSize", blockSize);
+		request.setAttribute("curBlock", curBlock);
+		request.setAttribute("lastBlock", lastBlock);
 		
 	}
 

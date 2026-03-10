@@ -52,13 +52,25 @@
 			  </div>
 		  </li>
       <li>
-	      <div class="dropdown">
+	      <div class="dropdown me-2">
 			    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Study2</button>
 			    <ul class="dropdown-menu">
 			      <li><a class="dropdown-item" href="${ctp}/study2/Test1">프론트파일 보안연습</a></li>
 			      <li><a class="dropdown-item" href="${ctp}/mapping/Test1">디렉토리 패턴</a></li>
 			      <li><a class="dropdown-item" href="___.do">확장자 패턴</a></li>
 			      <li><a class="dropdown-item" href="DbTest.db">데이터베이스연습</a></li>
+			      <li><a class="dropdown-item" href="Password.st">비밀번호연습</a></li>
+			    </ul>
+			  </div>
+		  </li>
+      <li>
+	      <div class="dropdown">
+			    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">${sMid}</button>
+			    <ul class="dropdown-menu">
+			      <li><a class="dropdown-item" href="${ctp}/study2/Test1">회원메인방</a></li>
+			      <li><a class="dropdown-item" href="${ctp}/mapping/Test1">회원리스트</a></li>
+			      <li><a class="dropdown-item" href="___.do">회원정보수정</a></li>
+			      <li><a class="dropdown-item" href="DbTest.db">회원탈퇴</a></li>
 			    </ul>
 			  </div>
 		  </li>
@@ -67,8 +79,8 @@
       </li>
       <% } %>
       <% if(!login.equals("OK")) { %>
-      <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/login/Login?loginSw=main_Login">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/login/Join">Join</a></li>
+      <li class="nav-item"><a class="nav-link" href="MemberLogin.mem">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="MemberJoin.mem">Join</a></li>
       <% } %>
     </ul>
   </div>
