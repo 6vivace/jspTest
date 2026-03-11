@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GuestInputOkCommand implements GuestInterface {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse resopnse) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name")==null ? "" : request.getParameter("name");
 		String content = request.getParameter("content")==null ? "" : request.getParameter("content");
 		String email = request.getParameter("email")==null ? "" : request.getParameter("email");

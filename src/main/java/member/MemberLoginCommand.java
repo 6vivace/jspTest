@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberLoginCommand implements MemberInterface {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse resopnse) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Cookie[] cookies = request.getCookies();
 //		String mid = "";
 
@@ -24,7 +24,6 @@ public class MemberLoginCommand implements MemberInterface {
 				}
 			}
 		}
-
 	}
 
 }

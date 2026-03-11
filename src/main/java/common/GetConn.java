@@ -11,7 +11,7 @@ public class GetConn {
 	private static GetConn instance = new GetConn();
 	
 	private GetConn() {
-		String driver = "com.mysql.jdbc.Driver";
+		String driver = "com.mysql.cj.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/springgreen";
 		String user = "root";
 		String password = "1234";

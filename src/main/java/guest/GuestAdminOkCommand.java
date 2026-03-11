@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 public class GuestAdminOkCommand implements GuestInterface {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse resopnse) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd");
 

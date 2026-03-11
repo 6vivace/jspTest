@@ -30,6 +30,11 @@ public class MemberController extends HttpServlet{
 			command.execute(request, response);
 			viewPage = "/include/message";
 		}
+		else if(com.equals("MemberLogout")) {
+			command = new MemberLogoutCommand();
+			command.execute(request, response);
+			viewPage = "/include/message";
+		}
 		else if(com.equals("MemberJoin")) {
 			viewPage += "memberJoin";
 		}
@@ -37,6 +42,12 @@ public class MemberController extends HttpServlet{
 			command = new MemberJoinOkCommand();
 			command.execute(request, response);
 			viewPage = "/include/message";
+//			return;
+		}
+		else if(com.equals("MemberMain")) {
+			command = new MemberMainCommand();
+			command.execute(request, response);
+			viewPage += "memberMain";
 		}
 		
 		viewPage += ".jsp";

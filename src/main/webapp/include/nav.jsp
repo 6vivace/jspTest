@@ -8,10 +8,6 @@
 <script>
 	'use strict';
 	
-	function logoutCheck() {
-		alert("로그아웃 처리 되었습니다.");
-		location.href = "<%=request.getContextPath()%>/login/Logout?logoutSw=main";
-	}
 </script>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <div class="container-fluid">
@@ -22,66 +18,67 @@
       <li class="nav-item">
         <a class="nav-link" href="<%=request.getContextPath()%>/GuestList.gu">Guest</a>
       </li>
-      <% if(login.equals("OK")) { %>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Board</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">PDS</a>
-      </li>
-      <li>
-	      <div class="dropdown me-2">
-			    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Study1</button>
-			    <ul class="dropdown-menu">
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0223/test06.jsp">서버환경변수</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t1_Session.jsp">세션연습</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t2_Application.jsp">어플리케이션연습</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t3_StorageTest.jsp">Storage Test1</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t4_ServerStorage.jsp">Storage Test2</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t0_Cookie.jsp">쿠키연습</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t5_Login.jsp">로그인연습1</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t6_Login.jsp">로그인연습2</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/login/Login?loginSw=Exam03_Login">로그인연습3</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0225/el.jsp">EL연습</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0225/jstl1.jsp">JSTL연습1</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0225/jstl2.jsp">JSTL연습2</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0303/t1_filter.jsp">한글필터연습</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0303/t2_init.jsp">초기값확인</a></li>
-			      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0303/t3_lifeCycle.jsp">생명주기연습</a></li>
-			    </ul>
-			  </div>
-		  </li>
-      <li>
-	      <div class="dropdown me-2">
-			    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Study2</button>
-			    <ul class="dropdown-menu">
-			      <li><a class="dropdown-item" href="${ctp}/study2/Test1">프론트파일 보안연습</a></li>
-			      <li><a class="dropdown-item" href="${ctp}/mapping/Test1">디렉토리 패턴</a></li>
-			      <li><a class="dropdown-item" href="___.do">확장자 패턴</a></li>
-			      <li><a class="dropdown-item" href="DbTest.db">데이터베이스연습</a></li>
-			      <li><a class="dropdown-item" href="Password.st">비밀번호연습</a></li>
-			    </ul>
-			  </div>
-		  </li>
-      <li>
-	      <div class="dropdown">
-			    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">${sMid}</button>
-			    <ul class="dropdown-menu">
-			      <li><a class="dropdown-item" href="${ctp}/study2/Test1">회원메인방</a></li>
-			      <li><a class="dropdown-item" href="${ctp}/mapping/Test1">회원리스트</a></li>
-			      <li><a class="dropdown-item" href="___.do">회원정보수정</a></li>
-			      <li><a class="dropdown-item" href="DbTest.db">회원탈퇴</a></li>
-			    </ul>
-			  </div>
-		  </li>
-		  <li class="nav-item">
-        <a class="nav-link" href="javascript:logoutCheck()">Logout</a>
-      </li>
-      <% } %>
-      <% if(!login.equals("OK")) { %>
-      <li class="nav-item"><a class="nav-link" href="MemberLogin.mem">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="MemberJoin.mem">Join</a></li>
-      <% } %>
+      <c:if test="${sLevel <= 4}">
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">Board</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">PDS</a>
+	      </li>
+	      <li>
+		      <div class="dropdown me-2">
+				    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Study1</button>
+				    <ul class="dropdown-menu">
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0223/test06.jsp">서버환경변수</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t1_Session.jsp">세션연습</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t2_Application.jsp">어플리케이션연습</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t3_StorageTest.jsp">Storage Test1</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t4_ServerStorage.jsp">Storage Test2</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t0_Cookie.jsp">쿠키연습</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t5_Login.jsp">로그인연습1</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0224_storage/t6_Login.jsp">로그인연습2</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/login/Login?loginSw=Exam03_Login">로그인연습3</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0225/el.jsp">EL연습</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0225/jstl1.jsp">JSTL연습1</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0225/jstl2.jsp">JSTL연습2</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0303/t1_filter.jsp">한글필터연습</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0303/t2_init.jsp">초기값확인</a></li>
+				      <li><a class="dropdown-item" href="<%=request.getContextPath()%>/study/0303/t3_lifeCycle.jsp">생명주기연습</a></li>
+				    </ul>
+				  </div>
+			  </li>
+	      <li>
+		      <div class="dropdown me-2">
+				    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Study2</button>
+				    <ul class="dropdown-menu">
+				      <li><a class="dropdown-item" href="${ctp}/study2/Test1">프론트파일 보안연습</a></li>
+				      <li><a class="dropdown-item" href="${ctp}/mapping/Test1">디렉토리 패턴</a></li>
+				      <li><a class="dropdown-item" href="___.do">확장자 패턴</a></li>
+				      <li><a class="dropdown-item" href="DbTest.db">데이터베이스연습</a></li>
+				      <li><a class="dropdown-item" href="Password.st">비밀번호연습</a></li>
+				      <li><a class="dropdown-item" href="ajaxForm.st">AJax연습</a></li>
+				    </ul>
+				  </div>
+			  </li>
+	      <li>
+		      <div class="dropdown">
+				    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">MyPage</button>
+				    <ul class="dropdown-menu">
+				      <li><a class="dropdown-item" href="MemberMain.mem">회원메인방</a></li>
+				      <li><a class="dropdown-item" href="${ctp}/mapping/Test1">회원리스트</a></li>
+				      <li><a class="dropdown-item" href="___.do">회원정보수정</a></li>
+				      <li><a class="dropdown-item" href="DbTest.db">회원탈퇴</a></li>
+				    </ul>
+				  </div>
+			  </li>
+			  <li class="nav-item">
+	        <a class="nav-link" href="MemberLogout.mem">Logout</a>
+	      </li>
+      </c:if>
+      <c:if test="${sLevel == null || sLevel > 4}">
+	      <li class="nav-item"><a class="nav-link" href="MemberLogin.mem">Login</a></li>
+	      <li class="nav-item"><a class="nav-link" href="MemberJoin.mem">Join</a></li>
+      </c:if>
     </ul>
   </div>
 </nav>

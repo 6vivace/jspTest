@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GuestListCommand implements GuestInterface {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse resopnse) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		GuestDAO dao = new GuestDAO();
 		
 		// 1. 현재 페이지번호를 구해온다.

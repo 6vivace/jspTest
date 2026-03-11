@@ -1,4 +1,4 @@
-package guest;
+package member;
 
 import java.io.IOException;
 
@@ -7,18 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class GuestAdminLogoutCommand implements GuestInterface {
+public class MemberLogoutCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-//		session.invalidate();  이거쓰면 안됨. 다날라감.
-		session.removeAttribute("sAdmin");
-		
-		request.setAttribute("message", "관리자 로그아웃");
-		request.setAttribute("url", "GuestList.gu");
+		String nickName = (String) session.getAttribute("sNickName");
 
+		session.invalidate();
+		
+		request.setAttribute("message", nickName + "님 로그아웃 되셨습니다.");
+		request.setAttribute("url", "MemberLogin.mem");
+		
 	}
 
 }

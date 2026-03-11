@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GuestDeleteCommand implements GuestInterface {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse resopnse) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idx = request.getParameter("idx")==null || request.getParameter("idx").equals("") ? 0 : Integer.parseInt(request.getParameter("idx"));
 
 		GuestDAO dao = new GuestDAO();

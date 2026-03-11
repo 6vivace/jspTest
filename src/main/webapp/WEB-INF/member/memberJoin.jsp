@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String today = java.time.LocalDate.now().toString();
+	pageContext.setAttribute("today", today);
+%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -25,10 +29,98 @@
   	
   	function fCheck() {
   		// 유효성 검사
+  	// 정규식을 이용한 유효성검사처리.....
+    	let regMid = /^[a-zA-Z0-9_]{4,20}$/;			// 아이디는 4~20의 영문 대/소문자와 숫자와 밑줄 가능
+    	//let regPwd = /{2,15}$/;										// 비밀번호는 2~15
+      let regNickName = /^[가-힣0-9_]{2,20}$/;		// 닉네임은 2~20자의 한글, 숫자, 밑줄만 가능
+      let regName = /^[가-힣a-zA-Z]{2,20}$/;			// 이름은 2~20자의 한글/영문 가능
+      const regEmail = /^[a-zA-Z0-9._%+\-]+$/; 	// 이메일은 email형식에 맞도록 처리...
+      const regUrl = /^(https?:\/\/)?[a-z0-9]*\.([a-z0-9]{2,10})*\/?/i; // 홈페이지입력시는 url형식에 맞도록 처리...
+      const regTel = /^\d{3,4}$/; 						// 전화번호입력시는 전화번호형식에 맞도록처리
+    	
+    	
+    	// 검사를 끝내고 필요한 내역들을 변수에 담아 회원가입처리한다.
+    	let mid = document.myform.mid.value.trim();
+    	let pwd = document.myform.pwd.value.trim();
+    	let nickName = document.myform.nickName.value;
+    	let name = document.myform.name.value;
+    	
+    	let email1 = document.myform.email1.value.trim();
+    	let email2 = document.myform.email2.value;
+    	let email = email1 + "@" + email2;
+    	
+    	let tel1 = document.myform.tel1.value;
+    	let tel2 = document.myform.tel2.value.trim();
+    	let tel3 = document.myform.tel3.value.trim();
+    	let tel = tel1 + "-" + tel2 + "-" + tel3;
+    	
+    	let postcode = document.myform.postcode.value + " ";
+    	let roadAddress = document.myform.roadAddress.value + " ";
+    	let detailAddress = document.myform.detailAddress.value + " ";
+    	let extraAddress = document.myform.extraAddress.value + " ";
+    	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
+    	
+    	let homePage = document.myform.homePage.value.trim();
+    	
+    	if(!regMid.test(mid)) {
+    		alert("아이디는 4~20자리의 영문 소/대문자와 숫자, 언더바(_)만 사용가능합니다.");
+    		document.myform.mid.focus();
+    		return false;
+    	}
+    	else if(pwd.length < 2 || pwd.length > 15) {
+        alert("비밀번호는 2~15 자리로 작성해주세요.");
+        document.myform.pwd.focus();
+        return false;
+      }
+      else if(!regNickName.test(nickName)) {
+        alert("닉네임은 한글만 사용가능합니다.");
+        document.myform.nickName.focus();
+        return false;
+      }
+      else if(!regName.test(name)) {
+        alert("성명은 한글과 영문대소문자만 사용가능합니다.");
+        document.myform.name.focus();
+        return false;
+      }
+      else if(!regEmail.test(email1)) {
+        alert("이메일을 확인하세요.");
+        document.getElementById("email1").focus();
+        return false;
+      }
+    	
+    	// 필수입력 아닌 사항들의 체크
+    	if(tel2 != "" && !regTel.test(tel2)) {
+    		alert("전화번호(국번호)를 확인하세요.");
+        document.getElementById("tel2").focus();
+        return false;
+			}
+    	else if(tel3 != "" && !regTel.test(tel3)) {
+    		alert("전화번호를 확인하세요.");
+        document.getElementById("tel3").focus();
+        return false;
+			}
+			else if(tel2 == "" && tel3 == "") {
+				tel2 = " ";
+				tel3 = " ";
+			}
+			else tel = tel1 + "-" + tel2 + "-" + tel3;
+    	
+    /*   if(homePage != "" && !regUrl.test(homePage)) {
+        alert("홈페이지를 확인하세요.");
+        document.getElementById("homePage").focus();
+        return false;
+      } */
 			
-  		
-  		
-  	}
+    	//alert("회원가입완료!!");
+      
+      // 앞에서 모든 자료를 정상적으로 유효성 검사를 마친후 빠진 필드의 내용을 채워서 서버로 전송처리한다.
+      document.myform.tel.value = tel;
+      document.myform.address.value = address;
+      document.myform.email.value = email;
+      
+      document.myform.submit();
+    }
+
   </script>
 </head>
 <body>
@@ -82,7 +174,7 @@
     </div>
     <div class="input-group mb-2">
       <div class="input-group-text bg-secondary-subtle"><label for="birthday">생일</label></div>
-      <input type="date" name="birthday" value="" class="form-control"/>
+      <input type="date" name="birthday" value="${today}" class="form-control"/>
     </div>
     <div class="input-group mb-2">
       <div class="input-group-text bg-secondary-subtle">전화번호</div>
@@ -118,7 +210,7 @@
       </div>
     </div>
     <div class="input-group mb-2">
-      <div class="input-group-text bg-secondary-subtle"><label for="homepage">Homepage address:</label></div>
+      <div class="input-group-text bg-secondary-subtle"><label for="homePage">Homepage address:</label></div>
       <input type="text" class="form-control" name="homePage" value="https://" id="homePage"/>
     </div>
     <div class="input-group mb-2">
@@ -173,6 +265,9 @@
 	    <button type="reset" class="btn btn-warning">다시작성</button> &nbsp;
 	    <button type="button" class="btn btn-info" onclick="location.href='MemberLogin.mem';">돌아가기</button>
     </div>
+    <input type="hidden" name="tel" />
+    <input type="hidden" name="address" />
+    <input type="hidden" name="email" />
   </form>
 </div>
 <p><br/></p>

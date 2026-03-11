@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import guest.GuestInterface;
+import study2.ajax.AjaxCheck1Command;
+import study2.ajax.AjaxCheck2Command;
 import study2.password.PasswordCheckCommand;
 
 @SuppressWarnings("serial")
@@ -36,10 +38,22 @@ public class StudyController extends HttpServlet {
 			command.execute(request, response);
 			viewPage += "password/password";
 		}
+		else if(com.equals("ajaxForm")) {
+			viewPage += "ajax/ajaxForm";
+		}
+		else if(com.equals("AjaxCheck1")) {
+			command = new AjaxCheck1Command();
+			command.execute(request, response);
+			viewPage += "ajax/ajaxForm";
+		}
+		else if(com.equals("AjaxCheck2")) {
+			command = new AjaxCheck2Command();
+			command.execute(request, response);
+			return;
+		}
 		viewPage += ".jsp";
 		
 		request.getRequestDispatcher(viewPage).forward(request, response);
-		
 	}
 	
 }
