@@ -5,21 +5,21 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-public class MemberMainCommand implements MemberInterface {
+public class IdSearchCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String mid = (String) session.getAttribute("sMid");
+		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		
 		MemberDAO dao = new MemberDAO();
 		
 		MemberVO vo = dao.getMemberIdCheck(mid);
 		
-		request.setAttribute("point", vo.getPoint());
-
+		String str = "0";
+		if(vo.getMid() != null) str = "1";
+			
+		response.getWriter().write(str);
 	}
 
 }

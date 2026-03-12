@@ -1,25 +1,26 @@
-package member;
+package study2.modal;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-public class MemberMainCommand implements MemberInterface {
+import guest.GuestInterface;
+import member.MemberDAO;
+import member.MemberVO;
+
+public class ModalFormOkCommand implements GuestInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String mid = (String) session.getAttribute("sMid");
+		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		
 		MemberDAO dao = new MemberDAO();
 		
 		MemberVO vo = dao.getMemberIdCheck(mid);
 		
-		request.setAttribute("point", vo.getPoint());
-
+		request.setAttribute("vo", vo);
 	}
 
 }

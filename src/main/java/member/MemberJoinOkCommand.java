@@ -1,10 +1,13 @@
 package member;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import common.SecurityUtil;
 
 public class MemberJoinOkCommand implements MemberInterface {
 
@@ -24,15 +27,21 @@ public class MemberJoinOkCommand implements MemberInterface {
 		String photo = request.getParameter("photo")==null? "" : request.getParameter("photo");
 		String content = request.getParameter("content")==null? "" : request.getParameter("content");
 		String userInfor = request.getParameter("userInfor")==null? "" : request.getParameter("userInfor");
-
+		
 		String[] hobbys = request.getParameterValues("hobby");
-		String hobby = "";	// 등산/낚시/바둑
+		String hobby = "";	//    등산/낚시/바둑
 		if(hobbys.length != 0) {
 			for(String h : hobbys) hobby += h + "/";
 		}
 		hobby = hobby.substring(0, hobby.lastIndexOf("/"));
 		
-		photo = "noimage.jpg";
+		photo = "noimage.jpg"; 
+		
+		// 비밀번호 암호화 처리(SHA256)
+		UUID uid = UUID.randomUUID();
+		String salt = uid.toString().substring(0,8);
+		SecurityUtil security = new SecurityUtil();
+		pwd = security.encryptSHA256(pwd + salt) + salt;
 		
 		MemberVO vo = new MemberVO();
 		MemberDAO dao = new MemberDAO();
@@ -53,20 +62,19 @@ public class MemberJoinOkCommand implements MemberInterface {
 		vo.setContent(content);
 		vo.setUserInfor(userInfor);
 		
-		System.out.println("vo : " + vo);
+		//System.out.println("vo : " + vo);
 		
-		// 비밀번호 암호화 처리(SHA256)
 		
 		// 모든 체크가 완료되면 DB에 자료를 저장한다.
 		int res = dao.setMemberJoinOk(vo);
 		
 		if(res != 0) {
 			request.setAttribute("message", "회원 가입되셨습니다.\\n다시 로그인해 주세요.");
-			request.setAttribute("ur", "MemberLogin.mem");
+			request.setAttribute("url", "MemberLogin.mem");
 		}
 		else {
-			request.setAttribute("message", "회원 가입실패~~.");
-			request.setAttribute("ur", "MemberJoin.mem");
+			request.setAttribute("message", "회원 가입 실패~~");
+			request.setAttribute("url", "MemberJoin.mem");
 		}
 	}
 

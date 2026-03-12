@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import guest.GuestInterface;
 import study2.ajax.AjaxCheck1Command;
 import study2.ajax.AjaxCheck2Command;
+import study2.modal.ModalFormOkCommand;
 import study2.password.PasswordCheckCommand;
 
 @SuppressWarnings("serial")
@@ -38,7 +39,7 @@ public class StudyController extends HttpServlet {
 			command.execute(request, response);
 			viewPage += "password/password";
 		}
-		else if(com.equals("ajaxForm")) {
+		else if(com.equals("AjaxForm")) {
 			viewPage += "ajax/ajaxForm";
 		}
 		else if(com.equals("AjaxCheck1")) {
@@ -50,6 +51,17 @@ public class StudyController extends HttpServlet {
 			command = new AjaxCheck2Command();
 			command.execute(request, response);
 			return;
+		}
+		else if(com.equals("UUIDForm")) {
+			viewPage += "uuid/uuidForm";
+		}
+		else if(com.equals("ModalForm")) {
+			viewPage += "modal/modalForm";
+		}
+		else if(com.equals("ModalFormOk")) {
+			command = new ModalFormOkCommand();
+			command.execute(request, response);
+			viewPage += "modal/modalForm";
 		}
 		viewPage += ".jsp";
 		

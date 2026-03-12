@@ -17,8 +17,13 @@
   <h2>회원 메인 방</h2>
   <hr/>
   <font color="blue"><b>${sNickName}</b></font>(${sMid}) 회원님 로그인중<br/>
-  현재 등급 : <font color="red"><b>{strLevel}</b></font>(${sLevel})<br/>
+  현재 등급 : <font color="red"><b>${strLevel}</b></font>(${sLevel})<br/>
   <hr/>
+  현재 총포인트 : <font color="orange"><b>${point}</b></font>점<br/>
+  <hr/>
+  <div>
+    방명록에 쓴글 : ${guestCnt} 건<br/>
+  </div>
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp" />

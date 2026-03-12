@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.GetConn;
 
@@ -52,13 +54,13 @@ public class MemberDAO {
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
-		}	finally {
+		} finally {
 			pstmtClose();
 		}
 		return res;
 	}
 
-	// 
+	// 아이디 검색처리
 	public MemberVO getMemberIdCheck(String mid) {
 		MemberVO vo = new MemberVO();
 		try {
@@ -66,7 +68,7 @@ public class MemberDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()) {
 				vo.setIdx(rs.getInt("idx"));
 				vo.setMid(rs.getString("mid"));
@@ -94,9 +96,128 @@ public class MemberDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
-		}	finally {
+		} finally {
 			rsClose();
 		}
 		return vo;
+	}
+
+	// 닉네임 중복체크
+	public MemberVO getMemberNickNameCheck(String nickName) {
+		MemberVO vo = new MemberVO();
+		try {
+			sql = "select * from member where nickName = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, nickName);
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setMid(rs.getString("mid"));
+				vo.setPwd(rs.getString("pwd"));
+				vo.setNickName(rs.getString("nickName"));
+				vo.setName(rs.getString("name"));
+				vo.setGender(rs.getString("gender"));
+				vo.setBirthday(rs.getString("birthday"));
+				vo.setTel(rs.getString("tel"));
+				vo.setAddress(rs.getString("address"));
+				vo.setEmail(rs.getString("email"));
+				vo.setHomePage(rs.getString("homePage"));
+				vo.setJob(rs.getString("job"));
+				vo.setHobby(rs.getString("hobby"));
+				vo.setPhoto(rs.getString("photo"));
+				vo.setContent(rs.getString("content"));
+				vo.setUserInfor(rs.getString("userInfor"));
+				vo.setUserDel(rs.getString("userDel"));
+				vo.setPoint(rs.getInt("point"));
+				vo.setLevel(rs.getInt("level"));
+				vo.setVisitCnt(rs.getInt("visitCnt"));
+				vo.setStartDate(rs.getString("startDate"));
+				vo.setLastDate(rs.getString("lastDate"));
+				vo.setTodayCnt(rs.getInt("todayCnt"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
+
+	// 방문포인트 10 증가처리
+	public void setMemberPointPlus(String mid) {
+		try {
+			sql = "update member set point = point + 10 where mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	// 회원 전체 리스트
+	public List<MemberVO> getMemberList(int startIndexNo, int pageSize) {
+		List<MemberVO> vos = new ArrayList<MemberVO>();
+		try {
+			sql = "select * from member order by idx desc limit ?,?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startIndexNo);
+			pstmt.setInt(2, pageSize);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				vo = new MemberVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setMid(rs.getString("mid"));
+				vo.setPwd(rs.getString("pwd"));
+				vo.setNickName(rs.getString("nickName"));
+				vo.setName(rs.getString("name"));
+				vo.setGender(rs.getString("gender"));
+				vo.setBirthday(rs.getString("birthday"));
+				vo.setTel(rs.getString("tel"));
+				vo.setAddress(rs.getString("address"));
+				vo.setEmail(rs.getString("email"));
+				vo.setHomePage(rs.getString("homePage"));
+				vo.setJob(rs.getString("job"));
+				vo.setHobby(rs.getString("hobby"));
+				vo.setPhoto(rs.getString("photo"));
+				vo.setContent(rs.getString("content"));
+				vo.setUserInfor(rs.getString("userInfor"));
+				vo.setUserDel(rs.getString("userDel"));
+				vo.setPoint(rs.getInt("point"));
+				vo.setLevel(rs.getInt("level"));
+				vo.setVisitCnt(rs.getInt("visitCnt"));
+				vo.setStartDate(rs.getString("startDate"));
+				vo.setLastDate(rs.getString("lastDate"));
+				vo.setTodayCnt(rs.getInt("todayCnt"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	// 전체 회원 건수 구하기
+	public int getTotRecCnt() {
+		int cnt = 0;
+		try {
+			sql = "select count(*) as cnt from member";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			cnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return cnt;
 	}
 }

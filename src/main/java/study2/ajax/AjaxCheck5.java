@@ -24,7 +24,7 @@ public class AjaxCheck5 extends HttpServlet {
 		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		
 		MemberDAO dao = new MemberDAO();
-
+		
 		MemberVO vo = dao.getMemberIdCheck(mid);
 		System.out.println("vo : " + vo);
 		
@@ -50,8 +50,7 @@ public class AjaxCheck5 extends HttpServlet {
 		String str = jObj.toJSONString();
 		System.out.println("str : " + str);
 		
-		
 		response.getWriter().write(str);
-
 	}
+	
 }

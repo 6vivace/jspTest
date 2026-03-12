@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.SecurityUtil;
+
 public class MemberLoginOkCommand implements MemberInterface {
 
 	@Override
@@ -18,19 +20,28 @@ public class MemberLoginOkCommand implements MemberInterface {
 		MemberDAO dao = new MemberDAO();
 		
 		MemberVO vo = dao.getMemberIdCheck(mid);
-		System.out.println("vo : " + vo);
 		
-		if(vo.getPwd() == null || !vo.getPwd().equals(pwd)) {
+		if(vo.getMid() == null) {
 			request.setAttribute("message", "로그인 실패~~\\n다시 로그인해 주세요.");
 			request.setAttribute("url", "MemberLogin.mem");
 			return;
 		}
+		else {
+			String salt = vo.getPwd().substring(vo.getPwd().length()-8);
+			SecurityUtil security = new SecurityUtil();
+			String tempPwd = security.encryptSHA256(pwd + salt) + salt;
+			if(!vo.getPwd().equals(tempPwd)) {
+				request.setAttribute("message", "로그인 실패~~\\n다시 로그인해 주세요.");
+				request.setAttribute("url", "MemberLogin.mem");
+				return;
+			}
+		}
+			
 		
 		// 로그인 완료시 처리할 내용들을 기술한다.(쿠키/세션/기타 로그인수 수행처리해야할것들....)
 		
 		// 쿠키처리
 		String idSave = request.getParameter("idSave")==null ? "off" : request.getParameter("idSave");
-//		System.out.println("idSave : " + idSave);
 		Cookie cookieMid = new Cookie("cMid", mid);
 		cookieMid.setPath("/");
 		if(idSave.equals("on")) cookieMid.setMaxAge(60*60*24*7);
@@ -50,8 +61,12 @@ public class MemberLoginOkCommand implements MemberInterface {
 		session.setAttribute("sLevel", vo.getLevel());
 		session.setAttribute("strLevel", strLevel);
 		
-		// 기타 처리
+		// 기타 처리(1.로그인시 10포인트씩 지급(단,))
+		// 1. 10포인트씩 지급(단, 1일 3회까지만 방문포인트 10씩 증가.)
+		dao.setMemberPointPlus(mid);
 		
+		// 2. 자동 정회원 등업시키기
+		// 조건 : 방명록에 5회이상 글을 올렸을시 '준회원'에서 '정회원'으로 자동 등업처리한다.(단, 방명록의 글은 하루에 여러번 등록해도 1회로 처리한다.)
 		
 		request.setAttribute("message", mid + "님 로그인 되었습니다.");
 		request.setAttribute("url", "MemberMain.mem");

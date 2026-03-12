@@ -7,10 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 @WebServlet("*.mem")
-public class MemberController extends HttpServlet{
+public class MemberController extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -19,6 +20,9 @@ public class MemberController extends HttpServlet{
 		
 		String com = request.getRequestURI();
 		com = com.substring(com.lastIndexOf("/")+1, com.lastIndexOf("."));
+		
+		HttpSession session = request.getSession();
+		int level = session.getAttribute("sLevel")==null ? 999 : (int) session.getAttribute("sLevel");
 		
 		if(com.equals("MemberLogin")) {
 			command = new MemberLoginCommand();
@@ -42,14 +46,30 @@ public class MemberController extends HttpServlet{
 			command = new MemberJoinOkCommand();
 			command.execute(request, response);
 			viewPage = "/include/message";
-//			return;
+		}
+		else if(com.equals("IdSearch")) {
+			command = new IdSearchCommand();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("NickNameSearch")) {
+			command = new NickNameSearchCommand();
+			command.execute(request, response);
+			return;
+		}
+		else if(level == 999) {
+			viewPage = "/index";
 		}
 		else if(com.equals("MemberMain")) {
 			command = new MemberMainCommand();
 			command.execute(request, response);
 			viewPage += "memberMain";
 		}
-		
+		else if(com.equals("MemberList")) {
+			command = new MemberListCommand();
+			command.execute(request, response);
+			viewPage += "memberList";
+		}
 		viewPage += ".jsp";
 		
 		request.getRequestDispatcher(viewPage).forward(request, response);

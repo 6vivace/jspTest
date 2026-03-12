@@ -121,6 +121,57 @@
       document.myform.submit();
     }
 
+  	// 아이디 중복체크
+  	function idCheck() {
+  		let mid = document.getElementById("mid");
+  		if(mid.value.trim() == "") {
+  			alert("아이디를 입력하세요.");
+  			mid.focus();
+  			return false;
+  		}
+  		
+  		$.ajax({
+  			url : 'IdSearch.mem',
+  			type : 'post',
+  			data : {mid : mid.value},
+  			success: (res) => {
+  				if(res != "0") {
+  					alert("아이디가 중복되었습니다. 다른아이디로 다시 검색해 주세요.");
+  		  		mid.focus();
+  				}
+  				else {
+  					alert ("사용 가능한 아이디 입니다.");
+  				}
+  			},
+  			error: () => alert("전송오류")
+  		});
+  	}
+
+  	// 닉네임 중복체크
+  	function nickCheck() {
+  		let nickName = document.getElementById("nickName");
+  		if(nickName.value.trim() == "") {
+  			alert("닉네임을 입력하세요.");
+  			nickName.focus();
+  			return false;
+  		}
+  		
+  		$.ajax({
+  			url : 'NickNameSearch.mem',
+  			type : 'post',
+  			data : {nickName : nickName.value},
+  			success: (res) => {
+  				if(res != "0") {
+  					alert("닉네임이 중복되었습니다. 다른닉네임을 다시 검색해 주세요.");
+  					nickName.focus();
+  				}
+  				else {
+  					alert ("사용 가능한 닉네임 입니다.");
+  				}
+  			},
+  			error: () => alert("전송오류")
+  		});
+  	}
   </script>
 </head>
 <body>

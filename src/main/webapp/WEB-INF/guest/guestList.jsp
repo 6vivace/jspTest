@@ -56,7 +56,7 @@
   	<table class="table table-borderless m-0 p-0">
   	  <tr>
   	    <td>번호 : ${curScrStartNo} &nbsp;
-  	      <c:if test="${!empty sAdmin}"><a href="javascript:deleteCheck(${vo.idx})" class="badge bg-danger">삭제</a></c:if>
+  	      <c:if test="${!empty sAdmin || vo.name == sMid}"><a href="javascript:deleteCheck(${vo.idx})" class="badge bg-danger">삭제</a></c:if>
   	    </td>
   	    <td class="text-end">방문IP : ${vo.clientIp}</td>
   	  </tr>
