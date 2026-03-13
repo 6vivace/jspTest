@@ -20,6 +20,8 @@
   현재 등급 : <font color="red"><b>${strLevel}</b></font>(${sLevel})<br/>
   <hr/>
   현재 총포인트 : <font color="orange"><b>${point}</b></font>점<br/>
+  최근 방문일 : ${sLastDate}<br/>
+  최종 방문일 : ${lastDate}<br/>
   <hr/>
   <div>
     방명록에 쓴글 : ${guestCnt} 건<br/>

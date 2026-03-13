@@ -7,20 +7,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MemberMainCommand implements MemberInterface {
+public class MemberDeleteCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		
 		String mid = (String) session.getAttribute("sMid");
 		
 		MemberDAO dao = new MemberDAO();
 		
-		MemberVO vo = dao.getMemberIdCheck(mid);
+		int res = dao.setMemberDelete(mid);
 		
-		request.setAttribute("point", vo.getPoint());
-		request.setAttribute("lastDate", vo.getLastDate());
-
+		if(res != 0) {
+			session.invalidate();
+			request.setAttribute("message", mid+ "님 탈퇴 되었습니다. \\n 같은 아이디로 1달간 재가입 할 수 없습니다.");
+			request.setAttribute("url", "MemberLogin.mem");
+		}
+		else {
+			request.setAttribute("message", "탈퇴실패~~~.");
+			request.setAttribute("url", "MemberMain.mem");
+		}
 	}
 
 }

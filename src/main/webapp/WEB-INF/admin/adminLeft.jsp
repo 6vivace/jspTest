@@ -28,7 +28,7 @@
   <hr/>
   <div>
     <h5>회원관리</h5>
-    <div><a href="" target="adminRight">회원리스트</a></div>
+    <div><a href="AdminMemberList.ad" target="adminRight">회원리스트</a></div>
     <div><a href="" target="adminRight">신고리스트</a></div>
   </div>
 </div>

@@ -7,10 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MemberMainCommand implements MemberInterface {
+import common.SecurityUtil;
+
+public class MemberPwdCheckOkCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd");
+		
 		HttpSession session = request.getSession();
 		String mid = (String) session.getAttribute("sMid");
 		
@@ -18,9 +22,14 @@ public class MemberMainCommand implements MemberInterface {
 		
 		MemberVO vo = dao.getMemberIdCheck(mid);
 		
-		request.setAttribute("point", vo.getPoint());
-		request.setAttribute("lastDate", vo.getLastDate());
-
+		String salt = vo.getPwd().substring(vo.getPwd().length()-8);
+		SecurityUtil security = new SecurityUtil();
+		String tempPwd = security.encryptSHA256(pwd + salt) + salt;
+		
+		String str = "0";
+		if(vo.getPwd().equals(tempPwd)) str = "1";
+		
+		response.getWriter().write(str);
 	}
 
 }

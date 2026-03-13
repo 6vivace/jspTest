@@ -95,7 +95,7 @@ public class MemberDAO {
 				vo.setTodayCnt(rs.getInt("todayCnt"));
 			}
 		} catch (SQLException e) {
-			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+			System.out.println("SQL문 오류(getMemberIdCheck) : " + e.getMessage());
 		} finally {
 			rsClose();
 		}
@@ -137,7 +137,7 @@ public class MemberDAO {
 				vo.setTodayCnt(rs.getInt("todayCnt"));
 			}
 		} catch (SQLException e) {
-			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+			System.out.println("SQL문 오류(getMemberNickNameCheck) : " + e.getMessage());
 		} finally {
 			rsClose();
 		}
@@ -147,25 +147,44 @@ public class MemberDAO {
 	// 방문포인트 10 증가처리
 	public void setMemberPointPlus(String mid) {
 		try {
-			sql = "update member set point = point + 10 where mid = ?";
+			sql = "update member set point = point + 10, lastDate=now() where mid = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+			System.out.println("SQL문 오류(setMemberPointPlus) : " + e.getMessage());
 		} finally {
 			pstmtClose();
 		}
 	}
 
 	// 회원 전체 리스트
-	public List<MemberVO> getMemberList(int startIndexNo, int pageSize) {
+	public List<MemberVO> getMemberList(int startIndexNo, int pageSize, String flag) {
 		List<MemberVO> vos = new ArrayList<MemberVO>();
 		try {
-			sql = "select * from member order by idx desc limit ?,?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startIndexNo);
-			pstmt.setInt(2, pageSize);
+			if(flag.equals("u")) {
+				sql = "select * from member where userDel = 'NO' order by idx desc limit ?,?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, startIndexNo);
+				pstmt.setInt(2, pageSize);
+			}
+			else {
+				int imsi = Integer.parseInt(flag);
+				if(imsi == 888)	{
+					sql = "select * from member order by idx desc limit ?,?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, startIndexNo);
+					pstmt.setInt(2, pageSize);
+				}
+				else {
+					sql = "select * from member where level = ? order by idx desc limit ?,?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, imsi);
+					pstmt.setInt(2, startIndexNo);
+					pstmt.setInt(3, pageSize);
+				}
+			}
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -196,7 +215,7 @@ public class MemberDAO {
 				vos.add(vo);
 			}
 		} catch (SQLException e) {
-			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+			System.out.println("SQL문 오류(getMemberList) : " + e.getMessage());
 		} finally {
 			rsClose();
 		}
@@ -204,20 +223,85 @@ public class MemberDAO {
 	}
 
 	// 전체 회원 건수 구하기
-	public int getTotRecCnt() {
+	public int getTotRecCnt(String flag) {
 		int cnt = 0;
 		try {
-			sql = "select count(*) as cnt from member";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+			if(flag.equals("u")) {
+				sql = "select count(*) as cnt from member where userDel = 'NO'";
+				pstmt = conn.prepareStatement(sql);
+			}
+			else {
+				int imsi = Integer.parseInt(flag);
+				if(imsi == 888)	{
+					sql = "select count(*) as cnt from member";
+					pstmt = conn.prepareStatement(sql);
+				}
+				else {
+					sql = "select count(*) as cnt from member where level = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, imsi);
+				}
+			}
+			
+			
+			rs =  pstmt.executeQuery();
 			
 			rs.next();
 			cnt = rs.getInt("cnt");
 		} catch (SQLException e) {
-			System.out.println("SQL문 오류(setMemberJoinOk) : " + e.getMessage());
+			System.out.println("SQL문 오류(getTotRecCnt) : " + e.getMessage());
 		} finally {
 			rsClose();
 		}
 		return cnt;
+	}
+
+	// 회원 탈퇴 신청
+	public int setMemberDelete(String mid) {
+		int res = 0;
+		try {
+			sql = "update member set userDel = 'OK', level = '99' where mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberDelete) : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setMemberLevelChange(int idx, int level) {
+		int res = 0;
+		try {
+			sql = "update member set level = ? where idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, level);
+			pstmt.setInt(2, idx);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberLevelChange) : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	// 비밀번호 변경처리
+	public int setMemberPwdCheckRes(String pwdNew, String mid) {
+		int res = 0;
+		try {
+			sql = "update member set pwd = ? where mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pwdNew);
+			pstmt.setString(2, mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL문 오류(setMemberLevelChange) : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return 0;
 	}
 }

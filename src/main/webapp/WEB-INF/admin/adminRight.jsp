@@ -13,8 +13,13 @@
 <p><br/></p>
 <div class="container text-center">
 	<h5><a href="AdminMain.ad" target="">관리자 데시보드</a></h5>
+	<div>관리자 디자인 처리하기.....</div>
 	<hr/>
-	
+	<div>신규회원 : ${memberCnt} 건</div>	
+	<div>방명록새글 : ${guestCnt} 건</div>	
+	<div>게시판새글 : ${boardCnt} 건</div>	
+	<hr/>
+	<div>탈퇴신청중인 회원 : ${memberDeleteCnt} 건 (<a href="javascript:memberDeleteOK()">영구삭제</a>)</div>	
 </div>
 <p><br/></p>
 </body>

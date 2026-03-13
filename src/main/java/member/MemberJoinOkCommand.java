@@ -37,14 +37,28 @@ public class MemberJoinOkCommand implements MemberInterface {
 		
 		photo = "noimage.jpg"; 
 		
+		MemberVO vo = new MemberVO();
+		MemberDAO dao = new MemberDAO();
+		
+		// 백엔트체크(아이디/닉네임 중복체크)
+		vo = dao.getMemberIdCheck(mid);
+		if(mid.equals(vo.getMid())) {
+			request.setAttribute("message", "회원 가입 실패(중복 아이디 회원)~~");
+			request.setAttribute("url", "MemberJoin.mem");
+			return;
+		}
+		vo = dao.getMemberNickNameCheck(nickName);
+		if(nickName.equals(vo.getNickName())) {
+			request.setAttribute("message", "회원 가입 실패(중복 닉네임 회원)~~");
+			request.setAttribute("url", "MemberJoin.mem");
+			return;
+		}
+		
 		// 비밀번호 암호화 처리(SHA256)
 		UUID uid = UUID.randomUUID();
 		String salt = uid.toString().substring(0,8);
 		SecurityUtil security = new SecurityUtil();
 		pwd = security.encryptSHA256(pwd + salt) + salt;
-		
-		MemberVO vo = new MemberVO();
-		MemberDAO dao = new MemberDAO();
 		
 		vo.setMid(mid);
 		vo.setPwd(pwd);

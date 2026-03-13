@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import admin.guest.AdminGuestListCommand;
+import admin.member.AdminMemberListCommand;
+import admin.member.MemberLevelChangeCommand;
 
 @SuppressWarnings("serial")
 @WebServlet("*.ad")
@@ -44,14 +46,14 @@ public class AdminController extends HttpServlet {
 		command.execute(request, response);
 			viewPage += "guest/adminGuestList";
 		}
-		else if(com.equals("MemberLoginOk")) {
-//			command = new MemberLoginOkCommand();
-//			command.execute(request, response);
-			viewPage = "/include/message";
+		else if(com.equals("AdminMemberList")) {
+			command = new AdminMemberListCommand();
+			command.execute(request, response);
+			viewPage += "member/adminMemberList";
 		}
-		else if(com.equals("MemberLogout")) {
-//			command = new MemberLogoutCommand();
-//			command.execute(request, response);
+		else if(com.equals("MemberLevelChange")) {
+			command = new MemberLevelChangeCommand();
+			command.execute(request, response);
 			return;
 		}
 		viewPage += ".jsp";

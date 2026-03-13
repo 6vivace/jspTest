@@ -8,6 +8,14 @@
 <script>
 	'use strict';
 	
+	function MemberDeleteCheck() {
+		let ans = confirm("회원에 탈퇴 하시겠습니까?");
+		if(ans) {
+			ans = confirm("회원에 탈퇴하시면 같은 아이디로 1개월동안 사용하실수 없습니다.\n그래도 탈퇴 하시겠습니까?");
+			/* if(ans) location.href = 'MemberDelete.mem?mid=${sMid}'; */
+			if(ans) location.href = 'MemberDelete.mem?';
+		}
+	}
 </script>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <div class="container-fluid">
@@ -70,8 +78,9 @@
 				    <ul class="dropdown-menu">
 				      <li><a class="dropdown-item" href="MemberMain.mem">회원메인방</a></li>
 				      <c:if test="${sLevel != 1}"><li><a class="dropdown-item" href="MemberList.mem">회원리스트</a></li></c:if>
-				      <li><a class="dropdown-item" href="___.do">회원정보수정</a></li>
-				      <li><a class="dropdown-item" href="DbTest.db">회원탈퇴</a></li>
+				      <li><a class="dropdown-item" href="MemberPwdCheck.mem">비밀번호수정</a></li>
+				      <li><a class="dropdown-item" href="MemberUpdate.mem">회원정보수정</a></li>
+				      <li><a class="dropdown-item" href="javascript:MemberDeleteCheck()">회원탈퇴</a></li>
 				      <c:if test="${sLevel == 0}"><li><a class="dropdown-item" href="AdminMain.ad">관리자메뉴</a></li></c:if>
 				    </ul>
 				  </div>

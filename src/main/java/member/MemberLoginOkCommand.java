@@ -27,10 +27,11 @@ public class MemberLoginOkCommand implements MemberInterface {
 			return;
 		}
 		else {
+			// 비밀번호 비교처리
 			String salt = vo.getPwd().substring(vo.getPwd().length()-8);
 			SecurityUtil security = new SecurityUtil();
 			String tempPwd = security.encryptSHA256(pwd + salt) + salt;
-			if(!vo.getPwd().equals(tempPwd)) {
+			if(vo.getUserDel().equals("OK") || !vo.getPwd().equals(tempPwd)) {
 				request.setAttribute("message", "로그인 실패~~\\n다시 로그인해 주세요.");
 				request.setAttribute("url", "MemberLogin.mem");
 				return;
@@ -60,12 +61,17 @@ public class MemberLoginOkCommand implements MemberInterface {
 		session.setAttribute("sNickName", vo.getNickName());
 		session.setAttribute("sLevel", vo.getLevel());
 		session.setAttribute("strLevel", strLevel);
+		session.setAttribute("sLastDate", vo.getLastDate());
 		
-		// 기타 처리(1.로그인시 10포인트씩 지급(단,))
-		// 1. 10포인트씩 지급(단, 1일 3회까지만 방문포인트 10씩 증가.)
+		// 기타 처리(1.로그인시 10포인트씩 지급(단,), 2.최종방문일처리, 3.자동등업처리)
+		// 1. 10포인트씩 지급(단, 1일 3회까지만 방문포인트 10씩 증가.),
+		// 2. 최종 방문일 처리
 		dao.setMemberPointPlus(mid);
 		
-		// 2. 자동 정회원 등업시키기
+		
+		
+		
+		// 3. 자동 정회원 등업시키기
 		// 조건 : 방명록에 5회이상 글을 올렸을시 '준회원'에서 '정회원'으로 자동 등업처리한다.(단, 방명록의 글은 하루에 여러번 등록해도 1회로 처리한다.)
 		
 		request.setAttribute("message", mid + "님 로그인 되었습니다.");
