@@ -26,9 +26,11 @@
     		success:function(res) {
     			if(res == '0') alert("비밀번호 오류!!!\n비밀번호를 다시 입력하세요.");
     			else {
+    				if(${param.flag == "m"}) location.href='MemberUpdate.mem';
+    				
     				let str = '';
     				str += '<hr/>';
-    				str += '<div class="input-group">';
+    				str += '<div class="input-group mb-2">';
     				str += '<div class="input-group-text">새 비밀번호</div>';
     				str += '<input type="password" name="pwdNew" id="pwdNew" class="form-control"/>';
     				str += '</div>';
@@ -54,7 +56,6 @@
     		$("#pwdNew").focus();
     		return false;
     	}
-    	myform.action = "MemberPwdCheckRes.mem";
     	myform.submit();
     }
   </script>
@@ -64,12 +65,13 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2>비밀번호 변경</h2>
-  <form name="myform" method="post" action="">
+  <c:if test="${param.flag != 'm'}"><h2>비밀번호 변경</h2></c:if>
+  <c:if test="${param.flag == 'm'}"><h2>비밀번호 확인</h2></c:if>
+  <form name="myform" method="post" action="MemberPwdCheckRes.mem">
     <div class="input-group">
       <div class="input-group-text">기존비밀번호</div>
       <input type="password" name="pwd" id="pwd" class="form-control" autofocus required />
-      <input type="button" value="비밀번호확인" onclick="pwdCheck()" onsubmit="pwdCheck();return false;" class="btn btn-success"/>
+      <input type="button" value="비밀번호확인" onclick="pwdCheck()" class="btn btn-success"/>
     </div>
     <div id="pwdForm"></div>
   </form>
